@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchPosts } from '../actions/posts.js';
-import { PostsList, Navbar } from './';
+import { Navbar, Home, PostsList, Page404 } from './';
 
 const Login = () => <div>login</div>;
 const SignUp = () => <div>SignUp</div>;
-const Home = () => <div>Home</div>;
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,23 +18,19 @@ class App extends React.Component {
       <Router>
         <div>
           <Navbar />
-          {/* <PostsList posts={posts} /> */}
-          <ul>
-            <li>
-              {/* here we cant use a tag as href requires refreshing of page  */}
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/signup">SignUp</Link>
-            </li>
-          </ul>
 
-          <Route exact={true} path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/signup" component={SignUp} />
+          <Switch>
+            <Route
+              exact={true}
+              path="/"
+              render={(props) => {
+                return <Home {...props} posts={posts} />;
+              }}
+            />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={SignUp} />
+            <Route component={Page404} />
+          </Switch>
         </div>
       </Router>
     );
