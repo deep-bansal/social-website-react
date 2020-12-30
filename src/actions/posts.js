@@ -4,6 +4,7 @@ import {
   ADD_POST,
   UPDATE_POSTS,
   UPDATE_POST_LIKE,
+  UPDATE_COMMENT_LIKE,
 } from './actionTypes';
 import { getAuthTokenFromLocalStorage, getFormBody } from '../helpers/utils';
 
@@ -87,24 +88,24 @@ export function createComment(content, postId) {
   };
 }
 
-export function addPostLike(postId, UserId) {
+export function addPostLike(postId, userId) {
   return {
     type: UPDATE_POST_LIKE,
     postId,
-    UserId,
+    userId,
   };
 }
-export function addCommentLike(commentId, UserId) {
+export function addCommentLike(commentId, userId) {
   return {
-    type: UPDATE_POST_LIKE,
+    type: UPDATE_COMMENT_LIKE,
     commentId,
-    UserId,
+    userId,
   };
 }
 
 export function addLikeToStore(id, likeType, userId) {
   return (dispatch) => {
-    const url = APIUrls.toggleLike();
+    const url = APIUrls.toggleLike(id, likeType);
 
     fetch(url, {
       method: 'POST',
